@@ -10,3 +10,5 @@ class Patient(Base):
     phone = Column(String(10), nullable=False, unique=True)
     addres = Column(String(50), nullable=False)
     blood_type = Column(String(3), nullable=False)
+    gender = Column(String(1), nullable=False)
+    identification = Column(String(20), nullable=False, unique=True)
