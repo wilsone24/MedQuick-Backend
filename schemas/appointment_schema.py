@@ -2,13 +2,21 @@ from pydantic import BaseModel
 
 
 class AppointmentRequest(BaseModel):
-    patient_name: str
-    doctor_name: str
+    id_doctor: int
+    id_patient: int
+    date: str
+    time: str
+    description: str
+
+
+class AppointmentResponse(BaseModel):
+    id_appointment: int
+    id_doctor: int
+    id_patient: int
+    date: str
+    time: str
+    description: str
     status: str
-
-
-class AppointmentResponse(AppointmentRequest):
-    id: str
 
     class Config:
         orm_mode = True

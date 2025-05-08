@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from uuid import uuid4
+from sqlalchemy.exc import SQLAlchemyError
 from models.appointment_model import Appointment
 from schemas.appointment_schema import AppointmentRequest
 
@@ -9,13 +9,19 @@ def get_all_appointments(db: Session):
 
 
 def create_appointment(db: Session, data: AppointmentRequest):
-    new_app = Appointment(
-        id=str(uuid4()),
-        patient_name=data.patient_name,
-        doctor_name=data.doctor_name,
-        status=data.status,
+    new_appointment = Appointment(
+        id_doctor=data.id_doctor,
+        id_patient=data.id_patient,
+        date=data.date,
+        time=data.time,
+        description=data.description,
+        status="In process",
     )
-    db.add(new_app)
-    db.commit()
-    db.refresh(new_app)
-    return new_app
+    try:
+        db.add(new_appointment)
+        db.commit()
+        db.refresh(new_appointment)
+        return new_appointment
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise e
