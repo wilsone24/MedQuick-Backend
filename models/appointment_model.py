@@ -10,5 +10,5 @@ class Appointment(Base):
     id_patient = Column(int, nullable=False)
     date = Column(String(10), nullable=False)
     time = Column(String(5), nullable=False)
-    description = Column(String(100), nullable=False)
+    description = Column(String(50), nullable=False)
     status = Column(String(10), nullable=False)
