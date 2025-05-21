@@ -25,3 +25,7 @@ def create_appointment(db: Session, data: AppointmentRequest):
     except SQLAlchemyError as e:
         db.rollback()
         raise e
+
+
+def get_appointments_by_user(db: Session, user_id: int):
+    return db.query(Appointment).filter(Appointment.id_patient == user_id).all()

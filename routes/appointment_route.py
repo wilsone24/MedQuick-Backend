@@ -17,3 +17,8 @@ def get_appointments(db: Session = Depends(get_db)):
 @router.post("/appointments", response_model=AppointmentResponse)
 def create_appointment(data: AppointmentRequest, db: Session = Depends(get_db)):
     return appointment_controller.create_appointment(db, data)
+
+
+@router.get("/appointments/{user_id}", response_model=List[AppointmentResponse])
+def get_appointments_by_user(user_id: int, db: Session = Depends(get_db)):
+    return appointment_controller.get_appointments_by_user(db, user_id)
