@@ -6,6 +6,7 @@ from controllers import auth_controller
 from schemas.user_schema import UserInDB, UserBase
 from sqlalchemy.orm import Session
 from database import get_db
+from schemas.user_patient_schema import UserPatientBase
 
 router = APIRouter()
 
@@ -31,5 +32,11 @@ def login(
 
 
 @router.post("/register", response_model=UserInDB)
-def create_user(data: UserBase, db: Session = Depends(get_db)):
-    return auth_controller.register_user(db, data)
+def create_user(payload: UserPatientBase, db: Session = Depends(get_db)):
+    user_data = payload.user
+    patient_data = payload.patient
+    user = auth_controller.register_user(db, user_data)
+    patient_data_dict = patient_data.dict()
+    patient_data_dict["id_patient"] = user.id_user
+    auth_controller.register_patient(db, patient_data_dict)
+    return user

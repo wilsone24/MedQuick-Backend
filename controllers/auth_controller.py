@@ -10,6 +10,8 @@ import os
 from datetime import timezone
 from sqlalchemy.orm import Session
 from models.user_model import User
+from schemas.patient_schema import PatientInDB
+from models.patient_model import Patient
 
 load_dotenv()
 
@@ -95,10 +97,25 @@ def register_user(db: Session, user_data: UserBase):
         full_name=user_data.full_name,
         email=user_data.email,
         password=hashed_password,
-        role=user_data.role,
+        role="Patient",
     )
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
+
+
+def register_patient(db: Session, patient_data: PatientInDB):
+    new_patient = Patient(
+        id_patient=patient_data["id_patient"],
+        age=patient_data["age"],
+        phone=patient_data["phone"],
+        address=patient_data["address"],
+        blood_type=patient_data["blood_type"],
+        gender=patient_data["gender"],
+    )
+
+    db.add(new_patient)
+    db.commit()
+    db.refresh(new_patient)
