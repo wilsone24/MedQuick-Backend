@@ -16,7 +16,7 @@ def login(
 ):
     user = auth_controller.authenticate_user(db, form_data.username, form_data.password)
     if not user:
-        raise HTTPException(status_code=400, detail="Credenciales inválidas")
+        raise HTTPException(status_code=400, detail="Credenciales inv")
 
     token_data = {
         "sub": user.email,
