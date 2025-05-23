@@ -11,20 +11,34 @@ router = APIRouter()
 
 
 @router.get("/appointments", response_model=List[AppointmentResponse])
-def get_appointments(db: Session = Depends(get_db)):
+def get_appointments(
+    db: Session = Depends(get_db), current_user: UserInDB = Depends(get_current_user)
+):
     return appointment_controller.get_all_appointments(db)
 
 
 @router.post("/appointments", response_model=AppointmentResponse)
-def create_appointment(data: AppointmentRequest, db: Session = Depends(get_db)):
+def create_appointment(
+    data: AppointmentRequest,
+    db: Session = Depends(get_db),
+    current_user: UserInDB = Depends(get_current_user),
+):
     return appointment_controller.create_appointment(db, data)
 
 
 @router.get("/appointments/{user_id}", response_model=List[AppointmentResponse])
-def get_appointments_by_user(user_id: int, db: Session = Depends(get_db)):
+def get_appointments_by_user(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserInDB = Depends(get_current_user),
+):
     return appointment_controller.get_appointments_by_user(db, user_id)
 
 
-@router.get("/me", response_model=UserInDB)
-def read_current_user(current_user: UserInDB = Depends(get_current_user)):
-    return current_user
+@router.delete("/appointments/{appointment_id}")
+def delete_appointment(
+    appointment_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserInDB = Depends(get_current_user),
+):
+    return appointment_controller.delete_appointment(db, appointment_id)

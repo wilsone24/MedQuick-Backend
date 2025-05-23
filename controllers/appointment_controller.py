@@ -29,3 +29,12 @@ def create_appointment(db: Session, data: AppointmentRequest):
 
 def get_appointments_by_user(db: Session, user_id: int):
     return db.query(Appointment).filter(Appointment.id_patient == user_id).all()
+
+
+def delete_appointment(db: Session, appointment_id: int):
+    appointment = db.query(Appointment).filter(Appointment.id_appointment == appointment_id).first()
+    if not appointment:
+        return {"error": "Appointment not found"}
+    db.delete(appointment)
+    db.commit()
+    return {"message": "Appointment deleted successfully"}
