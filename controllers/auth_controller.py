@@ -24,8 +24,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
+
 
 def authenticate_user(db: Session, email: str, password: str):
     user = get_user_by_email(db, email)
@@ -57,9 +59,9 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from database import get_db
 
+
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> UserInDB:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -81,6 +83,7 @@ def get_current_user(
 
 def get_user_by_email(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()
+
 
 def register_user(db: Session, user_data: UserBase):
     existing_user = get_user_by_email(db, user_data.email)

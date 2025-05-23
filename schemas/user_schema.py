@@ -5,13 +5,11 @@ class UserBase(BaseModel):
     full_name: str
     email: str
     role: str
-    password:str
-
-
+    password: str
 
 
 class UserInDB(UserBase):
-    id_user: int    
+    id_user: int
 
     class Config:
         orm_mode = True

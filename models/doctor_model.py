@@ -3,6 +3,7 @@ from database import Base
 
 from sqlalchemy import Column, Integer, String
 
+
 class Doctor(Base):
     __tablename__ = "doctors"
 
@@ -13,4 +14,3 @@ class Doctor(Base):
     phone = Column(String(10), nullable=False, unique=True)
     room = Column(String(10), nullable=False)
     skills_description = Column(String(20), nullable=False)
-

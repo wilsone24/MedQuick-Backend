@@ -12,7 +12,6 @@ class DoctorRequest(BaseModel):
 
 class DoctorResponse(DoctorRequest):
     id_doctor: int
+
     class Config:
         orm_mode = True
-        
-
