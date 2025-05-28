@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.get("/appointments", response_model=List[AppointmentResponse])
 def get_appointments(
-    db: Session = Depends(get_db), current_user: UserInDB = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
     return appointment_controller.get_all_appointments(db)
 

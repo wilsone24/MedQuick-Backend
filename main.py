@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -12,7 +14,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.include_router(appointment_route.router)
 app.include_router(doctor_route.router)
 app.include_router(survey_route.router)
