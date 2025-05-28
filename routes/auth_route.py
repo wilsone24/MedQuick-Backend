@@ -28,7 +28,7 @@ def login(
     }
 
     token = auth_controller.create_access_token(data=token_data)
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "bearer", "id_user": user.id_user}
 
 
 @router.post("/register", response_model=UserInDB)
