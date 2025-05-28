@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import appointment_route, doctor_route, survey_route, auth_route
+from routes import appointment_route, doctor_route, auth_route, specialty_route
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -16,5 +16,5 @@ app.add_middleware(
 )
 app.include_router(appointment_route.router)
 app.include_router(doctor_route.router)
-app.include_router(survey_route.router)
 app.include_router(auth_route.router)
+app.include_router(specialty_route.router)
