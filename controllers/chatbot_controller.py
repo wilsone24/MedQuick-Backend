@@ -25,6 +25,20 @@ def obtener_recomendacion(usuario: str, sintomas: str, db: Session):
             ]
         )
 
+        especialidades_dict = {
+            esp.id_specialty: esp.name for esp in especialidades_disponibles
+        }
+
+        # Crear la cadena con la información de los doctores y el nombre de su especialidad
+        medicos_con_especialidad = "\n".join(
+            [
+                f"{doc.id_doctor} - {doc.full_name} | Email: {doc.email} | Tel: {doc.phone} | Sala: {doc.room} | Especialidad: {especialidades_dict.get(doc.id_specialty, 'No encontrada')}"
+                for doc in medicos_disponibles
+            ]
+        )
+
+        print(medicos_con_especialidad)
+
         medicos = "\n".join(
             [
                 f"{doc.id_doctor} - {doc.full_name} | Email: {doc.email} | Tel: {doc.phone} | Sala: {doc.room} | Especialidad ID: {doc.id_specialty}"
@@ -33,10 +47,7 @@ def obtener_recomendacion(usuario: str, sintomas: str, db: Session):
         )
 
         especialidades_disponibles = "\n".join(
-            [
-                f"{esp.id_specialty} - {esp.name} | Descripción: {esp.description}"
-                for esp in especialidades_disponibles
-            ]
+            [f"{esp.id_specialty} - {esp.name} " for esp in especialidades_disponibles]
         )
 
         prompt = f"""
@@ -44,10 +55,8 @@ Eres un asistente médico. Un usuario te proporcionará sus síntomas y la durac
 Debes dar una recomendación médica clara y concisa (lo necesario, no extenderse) sobre lo que puede hacer sin automedicarse. 
 Además, sugiérele consultar con uno de los siguientes profesionales de la clínica, si corresponde:
 
-{medicos}
+{medicos_con_especialidad}
 
-Especialidades disponibles de los doctores por ID:
-{especialidades_disponibles}
 
 Ten en cuenta el historial médico del usuario para responder. Puedes mencionar antecedentes relevantes incluyendo fechas si lo consideras necesario y relacionarlos con los sintomas actuales. 
 Si los antecedentes no son relevantes para esta recomendación, omítelos. 
